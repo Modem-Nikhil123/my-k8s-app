@@ -25,10 +25,19 @@ pipeline {
         }
 
         stage('Push Docker Image') {
-            steps {
-                sh 'docker push nikhil0418/my-k8s-app:latest'
-            }
+    steps {
+        withCredentials([usernamePassword(
+            credentialsId: 'docker-hub-creds',
+            usernameVariable: 'DOCKER_USER',
+            passwordVariable: 'DOCKER_PASS'
+        )]) {
+            sh '''
+            echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+            docker push nikhil0418/my-k8s-app:latest
+            '''
         }
+        }
+    }
 
         stage('Start Minikube if not running') {
             steps {
