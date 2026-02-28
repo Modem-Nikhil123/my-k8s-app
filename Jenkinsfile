@@ -64,7 +64,7 @@ pipeline {
                 kubectl apply -f k8s/deployment.yaml
                 kubectl apply -f k8s/service.yaml
 
-                kubectl rollout status deployment/my-k8s-app
+                kubectl rollout status deployment/my-k8s-app-deployment
                 '''
             }
         }
